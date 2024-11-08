@@ -1,0 +1,88 @@
+With Top_10_countries AS
+(select D.country
+from customer A
+inner join address B on A.address_id = B.address_id
+inner join city C on B.city_id = C.city_id
+inner join country D on C.country_id = D.country_id
+group by D.country
+order by count(A.customer_id) desc
+limit 10),
+Top_city AS
+(SELECT Ci.city
+FROM customer cu
+INNER JOIN address ad ON cu.address_id = ad.address_id
+INNER JOIN city Ci ON ad.city_id = Ci.city_id
+INNER JOIN country co ON Ci.country_id = co.country_id
+where co.country IN
+(select *
+from Top_10_countries)
+group by co.country, ci.city
+order by count(cu.customer_id) desc
+limit 10),
+Top_customer AS
+(SELECT SUM(A.amount) AS total_amount
+FROM payment A
+INNER JOIN customer B ON A.customer_id = B.customer_id
+INNER JOIN address C ON B.address_id = C.address_id
+INNER JOIN city D ON C.city_id = D.city_id
+INNER JOIN country E ON D.country_id = E.country_id
+where D.city in ( select * from Top_city)
+group by B.first_name, B.last_name, D.city, E.country
+order by total_amount desc
+limit 5)
+select avg(total_amount)
+from top_customer
+
+
+
+
+With Top_10_countries AS
+(select D.country
+from customer A
+inner join address B on A.address_id = B.address_id
+inner join city C on B.city_id = C.city_id
+inner join country D on C.country_id = D.country_id
+group by D.country
+order by count(A.customer_id) desc
+limit 10),
+Top_city AS
+(SELECT Ci.city
+FROM customer cu
+INNER JOIN address ad ON cu.address_id = ad.address_id
+INNER JOIN city Ci ON ad.city_id = Ci.city_id
+INNER JOIN country co ON Ci.country_id = co.country_id
+where co.country IN
+(select *
+from Top_10_countries)
+group by co.country, ci.city
+order by count(cu.customer_id) desc
+limit 10),
+Top_customer AS
+(SELECT B.customer_id, B.first_name, B.last_name, E.country, SUM(A.amount) AS total_amount
+FROM payment A
+INNER JOIN customer B ON A.customer_id = B.customer_id
+INNER JOIN address C ON B.address_id = C.address_id
+INNER JOIN city D ON C.city_id = D.city_id
+INNER JOIN country E ON D.country_id = E.country_id
+where D.city in ( select * from Top_city)
+group by B.customer_id, B.first_name, B.last_name, D.city, E.country
+order by total_amount desc
+limit 5)
+Select D.country,
+count(distinct A.customer_id) AS All_customer_count,
+count(distinct Top_customer.customer_id) AS top_customer_count
+from customer A
+inner join address B on A.address_id = B.address_id
+inner join city C on B.city_id = C.city_id
+inner join country D on C.country_id = D.country_id
+left join Top_customer Top_customer On D.country = top_customer.country
+group by D.country
+order by top_customer_count desc
+limit 10
+
+
+Query type CTE Subquery
+Query 1 Cost - 167 Cost 127.63
+Query 1 Speed-92msec Speed 125msec
+Query 2 Cost 268.99 Cost 231.70
+Query 2 Speed- 107msec Speed 197 msec
