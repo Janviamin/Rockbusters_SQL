@@ -1,0 +1,32 @@
+SELECT * FROM film
+WHERE title LIKE ‘%Uptown%’;
+
+SELECT * FROM film
+WHERE length>120 AND rental_rate>2.99;
+
+SELECT * FROM film
+WHERE rental_duration BETWEEN 4 AND 6;
+
+SELECT * FROM film
+WHERE replacement_cost>14.99;
+
+SELECT * FROM film
+WHERE rating IN(‘G’, ‘PG’);
+
+SELECT rating,
+COUNT(film_id) AS count_of_movies,
+AVG(rental_rate) AS average_movie_rental_rate,
+MAX(rental_duration) AS maximum_rental_duration,
+MIN(rental_duration) AS minimum_rental_duration
+FROM film
+WHERE rating IN('G','PG');
+
+SELECT rating,
+COUNT(film_id) AS count_of_movies,
+AVG(rental_rate) AS average_movie_rental_rate,
+MAX(rental_duration) AS maximum_rental_duration,
+MIN(rental_duration) AS minimum_rental_duration
+FROM film
+WHERE rating IN('G','PG')
+GROUP BY rating;
+
