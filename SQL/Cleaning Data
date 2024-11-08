@@ -1,0 +1,162 @@
+## QUERY FILM TABLE
+SELECT -- all columns in table
+film_id,
+title,
+description,
+release_year,
+language_id,
+rental_duration,
+rental_rate,
+length,
+replacement_cost,
+rating,
+last_update,
+special_features,
+fulltext,
+COUNT(*) -- count every record
+FROM film
+GROUP BY -- return all the columns
+film_id,
+title,
+description,
+release_year,
+language_id,
+rental_duration,
+rental_rate,
+length,
+replacement_cost,
+rating,
+last_update,
+special_features,
+fulltext
+HAVING COUNT(*) >1; -- show only the
+records that exist more than once
+
+## QUERY CUSTOMER TABLE
+SELECT -- all columns in table
+customer_id,
+store_id,
+first_name,
+last_name,
+email,address_id,
+activebool,
+create_date,
+last_update,
+active,
+COUNT(*) -- count every record
+FROM customer
+GROUP BY -- return all the columns
+customer_id,
+store_id,
+first_name,
+last_name,
+email,address_id,
+activebool,
+create_date,
+last_update,
+active
+HAVING COUNT(*) >1; -- show only the records
+that exist more than once
+
+
+## QUERY FILM TABLE - APPROACH 1
+SELECT DISTINCT -- only returning unique
+values
+film_id,
+title,
+description,
+release_year,
+language_id,
+rental_duration,
+rental_rate,
+length,
+replacement_cost,
+rating,
+last_update,
+special_features,
+fulltext
+FROM film;
+
+## QUERY CUSTOMER TABLE
+SELECT DISTINCT -- only returning unique
+values
+customer_id,
+store_id,
+first_name,
+last_name,
+email,
+address_id,
+activebool,
+create_date,
+last_update,
+active
+FROM customer;
+
+## QUERY FILM TABLE - APPROACH 2
+SELECT -- only include columns where the
+data type does not inherently format the
+content, but the content still requires
+uniformity
+rating,
+special_features,
+fulltext
+FROM film
+WHERE
+rating NOT IN ('G', 'PG', 'PG-13', 'R',
+'NC-17');
+
+## QUERY CUSTOMER TABLE
+SELECT DISTINCT -- only returning unique
+values
+customer_id,
+store_id,
+first_name,
+last_name,
+email,
+address_id,
+activebool,
+create_date,
+last_update,
+active
+FROM customer;
+
+
+## QUERY FILM TABLE
+SELECT -- select all data
+*
+FROM film
+WHERE -- there is a null value in any of the
+columns
+film_id IS NULL OR
+title IS NULL OR
+description IS NULL OR
+release_year IS NULL OR
+language_id IS NULL OR
+rental_duration IS NULL OR
+rental_rate IS NULL OR
+length IS NULL OR
+replacement_cost IS NULL OR
+rating IS NULL OR
+last_update IS NULL OR
+special_features IS NULL OR
+fulltext is NULL;
+
+
+## QUERY CUSTOMER TABLE
+SELECT -- select all data
+*
+FROM customer
+WHERE -- there is a null value in any of the
+columns
+customer_id IS NULL OR
+store_id IS NULL OR
+first_name IS NULL OR
+last_name IS NULL OR
+Email IS NULL OR
+address_id IS NULL OR
+activebool IS NULL OR
+create_date IS NULL OR
+last_update IS NULL OR
+active IS NULL;
+
+
